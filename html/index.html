@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/scss/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
+    <script src="/js/index.js" type="module"></script>
+    <title>Les petits plats</title>
+</head>
+
+<body>
+
+    <header>
+        <div id="logo">
+            <a><img src="/logo/Logo.png" alt="logo du site"></a>
+            <a><img src="/logo/Lespetitsplats.png" alt="les petits plats"></a>
+        </div>
+    </header>
+
+    <main>
+
+        <aside>
+            <div class="input-group">
+                <input type="text" class="form-control" id="search"
+                    placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" data-search>
+                <label for="search" class="form-label"><i class="fa fa-search"></i></label>
+            </div>
+            <div class="search-filters">
+                <div class="filterbox box-primary" data-filter="ingredients">
+                    <div class="filterbox-wrapper">
+                        <div class="filterbox-control">
+                            <label for="ingredients" class="filterbox-control-label" data-filter-label="">Ingredients</label>
+                            <input type="text" class="filterbox-control-input" placeholder="Rechercher un ingredient"  id="ingredients" style="display: none;" data-filter-input="" wfd-invisible="true">
+                            <button class="filterbox-control-expand" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="filterbox box-secondary" data-filter="appliances">
+                    <div class="filterbox-wrapper">
+                        <div class="filterbox-control">
+                            <label for="appliances" class="filterbox-control-label" data-filter-label="">Appareil</label>
+                            <input type="text" class="filterbox-control-input" placeholder="Rechercher un appareil"  id="appliances" style="display: none;" data-filter-input="" wfd-invisible="true">
+                            <button class="filterbox-control-expand" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="filterbox box-tertiary" data-filter="ustensils">
+                    <div class="filterbox-wrapper">
+                        <div class="filterbox-control">
+                            <label for="ustensils" class="filterbox-control-label" data-filter-label="">Ustensiles</label>
+                            <input type="text" class="filterbox-control-input" placeholder="Rechercher un appareil"  id="ustensils" style="display: none;" data-filter-input="" wfd-invisible="true">
+                            <button class="filterbox-control-expand" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <section>
+            <!-- <article>
+                <div class='card-picture'>
+                    <img>
+                </div>
+                <div class='card-body' >
+                    <div class="ingredient">
+                        <h2>Limonade de Coco</h2>
+                        <i class="fas fa-clock">10 min</i>
+                    </div>
+                    <div class="description">
+                        <ul> <li>Lait de coco: 400ml</li>
+                            <li>Jus de citron: 2</li>
+                            <li>Créme de coco: 4 cuillères</li>
+                            <li>Sucre: 20g</li>
+                            <li>Glaçons: 2</li>
+                        </ul>
+                        
+                        <p>Mettre les glaçons à votre goût dans le blender, ajouter le lait,
+                            la crème de coco, le jus de 2 citrons et le sucre.
+                            Mixer jusqu'à avoir la consistence désirée
+                        </p>
+                    </div>
+                </div>
+            </article> -->
+        </section>
+
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+</body>
+
+</html>
