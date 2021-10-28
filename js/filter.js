@@ -2,15 +2,32 @@ import { recipes } from "./recipes.js"
 
 
 
-const searchInput = document.getElementById("search")
+export const ingredientList = []
+
+for (let i = 0; i < recipes.length; i++) {
+    const ingredientArray = recipes[i].ingredients
+
+    for (let j = 0; j < ingredientArray.length; j++) {
+        const ingredientItem = ingredientArray[j].ingredient
+        ingredientList.push(ingredientItem)
+    }
+}
+
 
 /* filtering by name */
-export function filterByName() {
-    const input = searchInput.value
-    const name = recipes.filter(item => item.name.toLowerCase().includes(input.toLowerCase()))
-    console.log(name)
+export function filterByName(value) {
+    const result = recipes.filter(item => item.name.toLowerCase().match(value))
 
-    /* display name results on the screen */
+    let suggestion = ''
+    result.forEach(resultRecipe => suggestion += `<div class="suggestion">${resultRecipe.name}</div>`)
+
+    document.getElementById('suggestions').innerHTML = suggestion
+}
+
+/* filtering by description */
+export function filterByDescription(value) {
+    const result = recipes.filter(item => item.description.toLowerCase().match(value))
+
     let suggestion = ''
     result.forEach(resultRecipe => suggestion += `<div class="suggestion">${resultRecipe.name}</div>`)
 
@@ -18,29 +35,14 @@ export function filterByName() {
 }
 
 /* filtering by ingredients */
-export function filterByIngredient() {
-    const input = searchInput.value
-    
-    const ingredient = recipes.filter(item => item.ingredient.toLowerCase().includes(input.toLowerCase()))
-    console.log(ingredient)
+export function filterByIngredient(value) {
+    const result = ingredientList.filter(item => item.toLowerCase().includes(value))
 
-    /* display ingredient results on the screen */
     let suggestion = ''
-    result.forEach(resultRecipe => suggestion += `<div class="suggestion">${resultRecipe.ingredient}</div>`)
+    result.forEach(resultRecipe => suggestion += `<div class="suggestion">${resultRecipe}</div>`)
 
     document.getElementById('suggestions').innerHTML = suggestion
 }
 
-/* filtering by description */
-export function filterByDescription() {
-    const input = searchInput.value
-    const description = recipes.filter(item => item.description.toLowerCase().includes(input.toLowerCase()))
-    console.log(description)
 
-    /* display description results on the screen */
-    let suggestion = ''
-    result.forEach(resultRecipe => suggestion += `<div class="suggestion">${resultRecipe.description}</div>`)
-
-    document.getElementById('suggestions').innerHTML = suggestion
-}
 
