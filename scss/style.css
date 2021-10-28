@@ -103,6 +103,10 @@ aside {
   font-size: x-large;
 }
 
+#suggestions {
+  margin-bottom: 1.5625rem;
+}
+
 /* éléments généraux search-filters */
 .search-filters {
   display: -webkit-box;
