@@ -1,48 +1,19 @@
-import { recipes } from "./recipes.js"
-
-
-
-export const ingredientList = []
-
-for (let i = 0; i < recipes.length; i++) {
-    const ingredientArray = recipes[i].ingredients
-
-    for (let j = 0; j < ingredientArray.length; j++) {
-        const ingredientItem = ingredientArray[j].ingredient
-        ingredientList.push(ingredientItem)
-    }
+/* filtering by name, description & ingredient */
+export function search(recipeList, value) {
+    return recipeList.filter(recipe => recipe.name.toLowerCase().match(value) || recipe.description.toLowerCase().match(value) || recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(value)))
 }
 
-
-/* filtering by name */
-export function filterByName(value) {
-    const result = recipes.filter(item => item.name.toLowerCase().match(value))
-
-    let suggestion = ''
-    result.forEach(resultRecipe => suggestion += `<div class="suggestion">${resultRecipe.name}</div>`)
-
-    document.getElementById('suggestions').innerHTML = suggestion
+/* filtering by ingredients tags */
+export function searchByIngredient(recipeList, value) {
+    return recipeList.filter(recipe => recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(value)))
 }
 
-/* filtering by description */
-export function filterByDescription(value) {
-    const result = recipes.filter(item => item.description.toLowerCase().match(value))
-
-    let suggestion = ''
-    result.forEach(resultRecipe => suggestion += `<div class="suggestion">${resultRecipe.name}</div>`)
-
-    document.getElementById('suggestions').innerHTML = suggestion
+/* filtering by appliances tags */
+export function searchByAppliance(recipeList, value) {
+    return recipeList.filter(recipe => recipe.appliance.toLowerCase().match(value))
 }
 
-/* filtering by ingredients */
-export function filterByIngredient(value) {
-    const result = ingredientList.filter(item => item.toLowerCase().includes(value))
-
-    let suggestion = ''
-    result.forEach(resultRecipe => suggestion += `<div class="suggestion">${resultRecipe}</div>`)
-
-    document.getElementById('suggestions').innerHTML = suggestion
+/* filtering by ustensils tags */
+export function searchByUstensil(recipeList, value) {
+    return recipeList.filter(recipe => recipe.ustensils.some((ustensil) => ustensil.toLowerCase().match(value)))
 }
-
-
-
