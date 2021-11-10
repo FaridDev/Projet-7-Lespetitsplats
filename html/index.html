@@ -29,43 +29,29 @@
 
         <aside>
             <div class="input-group">
-                <input type="text" class="form-control" id="search"
-                    placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" data-search>
+                <input type="text" class="form-control" id="search" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" data-search>
                 <label for="search" class="form-label"><i class="fa fa-search"></i></label>
             </div>
             <div id="suggestions"></div>
             <div class="search-filters">
                 <div class="filterbox box-primary" data-filter="ingredients">
-                    <div class="filterbox-wrapper">
-                        <div class="filterbox-control">
-                            <label for="ingredients" class="filterbox-control-label" data-filter-label="">Ingredients</label>
-                            <input type="text" class="filterbox-control-input" placeholder="Rechercher un ingredient"  id="ingredients" style="display: none;" data-filter-input="" wfd-invisible="true">
-                            <button class="filterbox-control-expand" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
-                        </div>
-                        <ul class="filterbox-results" id="ingredients-list" data-filter-results=""></ul>
-                    </div>
+                    <label for="ingredients" class="filterbox-control-label" data-filter-label="">Ingredients</label>
+                    <input type="text" class="filterbox-control-input" placeholder="Rechercher un ingredient"  id="ingredients" data-filter-input="" wfd-invisible="true">
+                    <button class="filterbox-control-expand" id="control-ingredient" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
+                    <ul class="filterbox-results" id="ingredients-list" data-filter-results=""></ul>
                 </div>
                 <div class="filterbox box-secondary" data-filter="appliances">
-                    <div class="filterbox-wrapper">
-                        <div class="filterbox-control">
-                            <label for="appliances" class="filterbox-control-label" data-filter-label="">Appareil</label>
-                            <input type="text" class="filterbox-control-input" placeholder="Rechercher un appareil"  id="appliances" style="display: none;" data-filter-input="" wfd-invisible="true">
-                            <button class="filterbox-control-expand" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
-                        </div>
-                        <ul class="filterbox-results" id="appliances-list" data-filter-results=""></ul>
-                    </div>
+                    <label for="appliances" class="filterbox-control-label" data-filter-label="">Appareil</label>
+                    <input type="text" class="filterbox-control-input" placeholder="Rechercher un appareil"  id="appliances" data-filter-input="" wfd-invisible="true">
+                    <button class="filterbox-control-expand" id="control-appliance" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
+                    <ul class="filterbox-results" id="appliances-list" data-filter-results=""></ul>
                 </div>
                 <div class="filterbox box-tertiary" data-filter="ustensils">
-                    <div class="filterbox-wrapper">
-                        <div class="filterbox-control">
-                            <label for="ustensils" class="filterbox-control-label" data-filter-label="">Ustensiles</label>
-                            <input type="text" class="filterbox-control-input" placeholder="Rechercher un appareil"  id="ustensils" style="display: none;" data-filter-input="" wfd-invisible="true">
-                            <button class="filterbox-control-expand" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
-                        </div>
-                        <ul class="filterbox-results" id="ustensils-list" data-filter-results=""></ul>
-                    </div>
+                    <label for="ustensils" class="filterbox-control-label" data-filter-label="">Ustensiles</label>
+                    <input type="text" class="filterbox-control-input" placeholder="Rechercher un ustensile"  id="ustensils" data-filter-input="" wfd-invisible="true">
+                    <button class="filterbox-control-expand" id="control-ustensil" data-filter-expand=""><i class="fas fa-chevron-down"></i></button>
+                    <ul class="filterbox-results" id="ustensils-list" data-filter-results=""></ul>
                 </div>
-
             </div>
         </aside>
 
