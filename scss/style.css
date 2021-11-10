@@ -118,13 +118,51 @@ aside {
 
 /** éléments généraux filterbox **/
 .filterbox {
-  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 10.625rem;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #fff;
+  width: 9.625rem;
   height: 4.3125rem;
   border-radius: 0.3125rem;
+  padding: 0 0.9375rem;
+}
+
+.filterbox label {
+  font-weight: 700;
+}
+
+.filterbox input {
+  position: absolute;
+  width: 80%;
+  background: none;
+  border: none;
+  display: none;
+}
+
+.filterbox button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: medium;
+}
+
+.filterbox ul#ingredients-list {
+  background-color: #3282F7;
+}
+
+.filterbox ul#appliances-list {
+  background-color: #68D9A4;
+}
+
+.filterbox ul#ustensils-list {
+  background-color: #ED6454;
 }
 
 .box-primary {
@@ -139,44 +177,21 @@ aside {
   background-color: #ED6454;
 }
 
-.filterbox-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  height: auto;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding: 0 0.9375rem;
-  color: #fff;
-}
-
-.filterbox-control {
-  width: 9rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: baseline;
-      -ms-flex-align: baseline;
-          align-items: baseline;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.filterbox-control label {
+.filterbox-results {
+  display: none;
+  position: absolute;
+  overflow: scroll;
+  max-height: 40%;
   font-weight: 700;
+  padding: 0;
 }
 
-.filterbox-control button {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: medium;
+.filterbox-results li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 208px;
+  height: 21px;
 }
 
 /***** section *****/
