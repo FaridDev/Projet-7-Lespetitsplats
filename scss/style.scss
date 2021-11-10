@@ -79,36 +79,23 @@ aside {
 }
 /** éléments généraux filterbox **/
 .filterbox {
-    position: relative;
     display: flex;
-    width: 10.625rem;
+    justify-content: space-between;
+    align-items: center;
+    color: $tertiarycolor;
+    width: 9.625rem;
     height: 4.3125rem;
     border-radius: 0.3125rem;
-}
-.box-primary {
-    background-color: #3282F7;
-}
-.box-secondary {
-    background-color: #68D9A4;
-}
-.box-tertiary {
-    background-color: #ED6454;
-}
-.filterbox-wrapper {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    justify-content: center;
     padding: 0 0.9375rem;
-    color: $tertiarycolor;
-}
-.filterbox-control {
-    width: 9rem;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
     label {
         font-weight: 700;
+    }
+    input {
+        position: absolute;
+        width: 80%;
+        background: none;
+        border: none;
+        display: none;
     }
     button {
         background: none;
@@ -116,7 +103,41 @@ aside {
         color: $tertiarycolor;
         font-size: medium;
     }
-}  
+    ul#ingredients-list {
+        background-color: $primarybackground;
+        
+    }
+    ul#appliances-list {
+        background-color: $secondarybackground;
+    }
+    ul#ustensils-list {
+        background-color: $tertiarybackground;
+    }
+}
+.box-primary {
+    background-color: $primarybackground;
+}
+.box-secondary {
+    background-color: $secondarybackground
+}
+.box-tertiary {
+    background-color: $tertiarybackground;
+}
+.filterbox-results {
+    display: none;
+    position: absolute;
+    overflow: scroll;
+    max-height: 40%;
+    font-weight: 700;
+    padding: 0; 
+    li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 208px;
+        height: 21px;
+    }
+}
     
 /***** section *****/
 section {
