@@ -1,4 +1,4 @@
-export function renderRecipe(name, ingredients, time, description) {
+export function renderRecipes(name, ingredients, time, description) {
 
     const article = document.createElement('article')
     const cardPicture = document.createElement('div')
@@ -39,6 +39,7 @@ export function renderRecipe(name, ingredients, time, description) {
 }
 
 export function renderIngredients(ingredientList) {
+    document.getElementById('ingredients-list').innerHTML = "";
     ingredientList.forEach(ingredient => {
         let item = document.createElement('li')
         item.textContent = ingredient
@@ -47,6 +48,7 @@ export function renderIngredients(ingredientList) {
 }
 
 export function renderAppliances(applianceList) {
+    document.getElementById('appliances-list').innerHTML = "";
     applianceList.forEach(appliance => {
         let item = document.createElement('li')
         item.textContent = appliance
@@ -55,6 +57,7 @@ export function renderAppliances(applianceList) {
 }
 
 export function renderUstensils(ustensilList) {
+    document.getElementById('ustensils-list').innerHTML = "";
     ustensilList.forEach(ustensil => {
         let item = document.createElement('li')
         item.textContent = ustensil
@@ -62,3 +65,9 @@ export function renderUstensils(ustensilList) {
     })
 }
 
+/* display selected tags below the search bar */
+let tag = ''
+export function renderTags(value, type) {
+    tag += `<div class="tag" data-type="${type}">${value}</div>`
+    document.getElementById('search-tags').innerHTML = tag
+}

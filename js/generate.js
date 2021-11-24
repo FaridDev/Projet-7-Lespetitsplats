@@ -1,5 +1,5 @@
-/* generating ingredients List */
-export function generateIngredientList(recipeList) {
+/* generate ingredients List */
+export function generateIngList(recipeList) {
     let ingredients = []
     recipeList.forEach(recipe => {
         recipe.ingredients.some(ingredientItem => {
@@ -7,21 +7,21 @@ export function generateIngredientList(recipeList) {
             ingredients.push(ingredient)
         })
     })
-    return [...new Set(ingredients)]
+    return [...new Set(ingredients)].sort()
 }
 
-/* generating appliances List */
-export function generateApplianceList(recipeList) {
+/* generate appliances List */
+export function generateAppList(recipeList) {
     let appliances = []
     recipeList.forEach(recipe => {
         let appliance = recipe.appliance.toLowerCase()
         appliances.push(appliance)
     })
-    return [...new Set(appliances)]
+    return [...new Set(appliances)].sort()
 }
 
-/* generating ustensils List */
-export function generateUstensilList(recipeList) {
+/* generate ustensils List */
+export function generateUstList(recipeList) {
     let ustensils = []
     recipeList.forEach(recipe => {
         recipe.ustensils.forEach(ustensilItem => {
@@ -29,7 +29,7 @@ export function generateUstensilList(recipeList) {
             ustensils.push(ustensil)
         })
     })
-    return [...new Set(ustensils)]
+    return [...new Set(ustensils)].sort()
 }
 
 
