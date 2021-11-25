@@ -167,7 +167,7 @@ aside {
   display: none;
   overflow: scroll;
   width: 100%;
-  height: 80%;
+  max-height: 19.5rem;
   font-weight: 700;
   -ms-grid-columns: (1fr)[3];
       grid-template-columns: repeat(3, 1fr);
@@ -185,9 +185,9 @@ aside {
   position: relative;
   -ms-flex-flow: wrap;
       flex-flow: wrap;
-  width: 41rem;
-  height: 25rem;
-  padding-top: 1.5rem;
+  width: 32rem;
+  height: auto;
+  padding-top: 3.5rem;
 }
 
 label[data-label="inactive"] {
@@ -196,10 +196,11 @@ label[data-label="inactive"] {
 
 input[data-input="active"] {
   display: block;
-  width: 90%;
   position: absolute;
+  width: 90%;
   top: 1.5rem;
   left: 0.7rem;
+  font-size: inherit;
 }
 
 button[data-button="on"] {
