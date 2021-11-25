@@ -1,3 +1,5 @@
+/******************   FILTERED RECIPES   ******************/
+
 /* research recipes by name, description & ingredient */
 export function filterOnKey(recipeList, value) {
     return recipeList.filter(recipe => recipe.name.toLowerCase().match(value) || recipe.description.toLowerCase().match(value) || recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(value)))
@@ -21,5 +23,12 @@ export function filterByApp(recipeList, value) {
 /* research recipes from ustensils tags */
 export function filterByUst(recipeList, value) {
     return recipeList.filter(recipe => recipe.ustensils.some((ustensil) => ustensil.toLowerCase().match(value)))
+}
+
+
+/******************   FILTERED TAGS LIST   ******************/
+
+export function filterList(itemList, value) {
+    return itemList.filter(tag => tag.match(value))
 }
 

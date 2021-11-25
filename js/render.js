@@ -1,5 +1,4 @@
 export function renderRecipes(name, ingredients, time, description) {
-
     const article = document.createElement('article')
     const cardPicture = document.createElement('div')
     cardPicture.className = 'card-picture'
@@ -38,7 +37,7 @@ export function renderRecipes(name, ingredients, time, description) {
     document.querySelector('section').append(article)
 }
 
-export function renderIngredients(ingredientList) {
+export function renderIng(ingredientList) {
     document.getElementById('ingredients-list').innerHTML = "";
     ingredientList.forEach(ingredient => {
         let item = document.createElement('li')
@@ -47,7 +46,7 @@ export function renderIngredients(ingredientList) {
     })
 }
 
-export function renderAppliances(applianceList) {
+export function renderApp(applianceList) {
     document.getElementById('appliances-list').innerHTML = "";
     applianceList.forEach(appliance => {
         let item = document.createElement('li')
@@ -56,7 +55,7 @@ export function renderAppliances(applianceList) {
     })
 }
 
-export function renderUstensils(ustensilList) {
+export function renderUst(ustensilList) {
     document.getElementById('ustensils-list').innerHTML = "";
     ustensilList.forEach(ustensil => {
         let item = document.createElement('li')
