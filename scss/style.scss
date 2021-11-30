@@ -64,21 +64,34 @@ aside {
         }
     }
 }
-// .filter-list[data-list="inactive"] {
-//     display: 'none'
-// }
 
 // tags selected
 #search-tags {
-    margin-bottom: 1.5625rem;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 0.9375rem;
+    gap: 1.25rem;
+    .tag {
+        display: block;
+        display: flex;
+        align-items: center;
+        height: 2.3125rem;
+        padding: 0 1.25rem;
+        gap: 0.8125rem;
+        border-radius: 0.3125rem;
+        color: $tertiarycolor;
+        font-weight: 700;
+        font-size: 0.875rem;
+    }
 }
+
 // input research search bar lists
 #search-filters {
     display: flex;
     margin-bottom: 1.5625rem;
     gap: 1.25rem;
 }
-// filterbox
+// when filterbox is displayed
 .filterbox {
     display: flex;
     justify-content: space-between;
@@ -156,15 +169,17 @@ ul[data-list="active"] {
     display: block;
     display: grid;
 }
+li[data-status="off"] {
+    display: none;
+}
 
-
-.box-primary, ul#ingredients-list {
+.box-primary, ul#ingredients-list, .tag[data-type="ing"] {
     background-color: $primarybackground;
 }
-.box-secondary, ul#appliances-list {
+.box-secondary, ul#appliances-list, .tag[data-type="app"] {
     background-color: $secondarybackground;
 }
-.box-tertiary, ul#ustensils-list {
+.box-tertiary, ul#ustensils-list, .tag[data-type="ust"] {
     background-color: $tertiarybackground;
 }
     
