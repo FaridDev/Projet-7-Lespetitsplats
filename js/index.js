@@ -1,7 +1,7 @@
 import { recipes } from "./recipes.js"
-import { filterOnKey, filterOnClick, filterByIng, filterByApp, filterByUst, filterList } from "./filter.js"
+import { filterOnKeyup, filterOnclick, filterByIng, filterByApp, filterByUst, filterList } from "./filter.js"
 import { generateIngList, generateAppList, generateUstList } from "./generate.js"
-import { renderRecipes, renderIng, renderApp, renderUst, renderTags } from "./render.js"
+import { renderRecipes, renderIng, renderApp, renderUst, renderTag } from "./render.js"
 
 
 let searchResult = [] // Array of recipes updated
@@ -36,6 +36,7 @@ const ingDropdown = document.getElementById('ingredients-list')
 const appDropdown = document.getElementById('appliances-list')
 const ustDropdown = document.getElementById('ustensils-list')
 
+
 // activate/deactivate filterbox
 function activateBox(filterBox) {
     filterBox.dataset.filter = filterBox.dataset.filter == "inactive" ? "active" : "inactive";
@@ -45,7 +46,7 @@ function deactivateLabel(filterLabel) {
     filterLabel.dataset.label = filterLabel.dataset.label == "active" ? "inactive" : "active";
 }
 // activate/deactivate input
-function activateInput(filterInput, checkInput) {
+function activateInput(filterInput) {
     filterInput.dataset.input = filterInput.dataset.input == "inactive" ? "active" : "inactive";
 }
 // switch on/off button
@@ -56,6 +57,12 @@ function activateButton(filterButton) {
 function activateDropdown(filterDropdown) {
     filterDropdown.dataset.list = filterDropdown.dataset.list == "inactive" ? "active" : "inactive";
 }
+// deactivate tag on search-tags
+function removeTag(tag) {
+    // tag.dataset.status = tag.dataset.status == "on" ? "off" : "on";
+    tag.parentElement.remove(tag.parentElement)
+}
+
 
 /******************   GET RECIPES BY INPUT RESEARCH   ******************/
 
@@ -65,7 +72,7 @@ mainInput.addEventListener("input", (event) => {
 
     if (input.length >= 3) { /* checking if the word is more than 3 letters */
         document.querySelector('section').innerHTML = ""
-        searchResult = filterOnKey(recipes, input)
+        searchResult = filterOnKeyup(recipes, input)
         searchResult.forEach(result => {
             renderRecipes(result.name, result.ingredients, result.time, result.description)
         })
@@ -82,18 +89,20 @@ ingLabel.addEventListener('click', () => {
     /* display ingredients filterbox */
     activateBox(ingBox)
     deactivateLabel(ingLabel)
-    activateDropdown(ingDropdown)
-    activateButton(ingButton)
     activateInput(ingInput)
+    activateButton(ingButton)
+    activateDropdown(ingDropdown)
 
     /* check if something is written in main search bar before generating ingredients list */
     if (mainInput.value.length >= 3) {
         ingredientList = generateIngList(searchResult)
         renderIng(ingredientList)
+        addEventToIngLi()
     }
     else {
         ingredientList = generateIngList(recipes)
         renderIng(ingredientList)
+        addEventToIngLi()
     }
 
     /* check if something is written in ingredients search bar before generating ingredients list */
@@ -102,98 +111,221 @@ ingLabel.addEventListener('click', () => {
         if (ingInput.value.length >= 3) {
             ingredientList = filterList(ingredientList, input)
             renderIng(ingredientList)
+            addEventToIngLi()
         } else {
             ingredientList = generateIngList(searchResult)
             renderIng(ingredientList)
+            addEventToIngLi()
         }
     })
 
-    /* check if ingredients tags are selected before generating ingredients list */
-    const tags = document.querySelectorAll('#ingredients-list li') // All ingredients tags
-    tags.forEach(tag => {
-        tag.addEventListener('click', () => {
-            let selectedTag = tag.innerHTML
-            renderTags(selectedTag, "ing") //add data-attribute "ing" to clicked tag & display it on the DOM
-            ingredientList = generateIngList(searchResult)
-            renderIng(ingredientList)
-            searchResult = filterOnClick(searchResult, selectedTag)
-            document.querySelector('section').innerHTML = ""
-            searchResult.forEach(result => {
-                renderRecipes(result.name, result.ingredients, result.time, result.description)
+    /* check if ingredients tags are selected before generating ingredients list & display recipes */
+    function addEventToIngLi() {
+        const tags = document.querySelectorAll('#ingredients-list li') // All ingredients tags
+        tags.forEach(ingTag => {
+            ingTag.addEventListener('click', () => {
+                let selectedTag = ingTag.innerHTML
+                // if (searchResult.length >= 1) {
+                //     searchResult = filterOnclick(searchResult, selectedTag)
+                // }
+                // else {
+                //     searchResult = filterOnclick(recipes, selectedTag)
+                // }
+                renderTag(selectedTag, "ing") //add data-attribute "ing" to clicked tag & display it
+
+                const searchTags = document.querySelectorAll('.tag')
+                searchTags.forEach(searchTag => {
+                    let viewedTag = searchTag.textContent
+                    console.log(viewedTag)
+                    searchResult = filterByIng(recipes, viewedTag)
+                    console.log(searchResult)
+                })
+
+                // code qui parcours les tags et applique les bons filtres
+
+
+                ingredientList = generateIngList(searchResult)
+                renderIng(ingredientList)
+                addEventToIngLi()
+
+                document.querySelector('section').innerHTML = ""
+                searchResult.forEach(result => {
+                    renderRecipes(result.name, result.ingredients, result.time, result.description)
+                })
+
+                const closeTags = document.querySelectorAll('i.far.fa-times-circle') // close button of tags
+                closeTags.forEach(tag => {
+                    tag.addEventListener('click', () => {
+                        removeTag(tag)
+                    })
+                })
             })
         })
-    })
+    }
+
 })
 
 /********  APPLIANCES FILTERBOX  ********/
-/* display appliances filterbox */
 appLabel.addEventListener('click', () => {
+    /* display appliances filterbox */
     activateBox(appBox)
     deactivateLabel(appLabel)
     activateInput(appInput)
     activateButton(appButton)
     activateDropdown(appDropdown)
-    applianceList = generateAppList(recipes)
-    renderApp(applianceList)
 
-    /* input appliances search bar */
+    /* check if something is written in main search bar before generating appliances list */
+    if (mainInput.value.length >= 3) {
+        applianceList = generateAppList(searchResult)
+        renderApp(applianceList)
+        addEventToAppLi()
+    }
+    else {
+        applianceList = generateAppList(recipes)
+        renderApp(applianceList)
+        addEventToAppLi()
+    }
+
+    /* check if something is written in appliances search bar before generating appliances list */
     appInput.addEventListener("input", (event) => {
         const input = event.target.value.toLowerCase()
-        if (mainInput.value.length >= 3) {
-            applianceList = generateAppList(searchResult)
-        } else if (appInput.value.length >= 3) {
+        if (appInput.value.length >= 3) {
             applianceList = filterList(applianceList, input)
-        } else {
-            applianceList = generateAppList(recipes)
             renderApp(applianceList)
+            addEventToAppLi()
+        } else {
+            applianceList = generateAppList(searchResult)
+            renderApp(applianceList)
+            addEventToAppLi()
         }
     })
 
-    const tags = document.querySelectorAll('#appliances-list li') // All appliances tags
-    tags.forEach(tag => {
-        tag.addEventListener('click', () => {
-            let selectedTag = tag.innerHTML
-            renderTags(selectedTag, "app") // add data-type to the tag & display it on the DOM
+    /* check if appliances tags are selected before generating appliances list & display recipes */
+    function addEventToAppLi() {
+        const tags = document.querySelectorAll('#appliances-list li') // All appliances tags
+        tags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                let selectedTag = tag.innerHTML
+                // if (searchResult.length >= 1) {
+                //     searchResult = filterOnclick(searchResult, selectedTag)
+                // }
+                // else {
+                //     searchResult = filterOnclick(recipes, selectedTag)
+                // }
+                // deleteTag(ingTag)
+                renderTag(selectedTag, "app") //add data-attribute "app" to clicked tag & display it
+
+                const searchTags = document.querySelectorAll('.tag')
+                searchTags.forEach(searchTag => {
+                    let viewedTag = searchTag.textContent
+                    console.log(viewedTag)
+                    searchResult = filterByApp(recipes, viewedTag)
+                    console.log(searchResult)
+                })
+
+                // code qui parcours les tags et applique les bons filtres
+
+
+                applianceList = generateAppList(searchResult)
+                renderApp(applianceList)
+                addEventToAppLi()
+
+                document.querySelector('section').innerHTML = ""
+                searchResult.forEach(result => {
+                    renderRecipes(result.name, result.ingredients, result.time, result.description)
+                })
+
+                const closeTags = document.querySelectorAll('i.far.fa-times-circle') // close button of tags
+                closeTags.forEach(tag => {
+                    tag.addEventListener('click', () => {
+                        removeTag(tag)
+                    })
+                })
+            })
         })
-    })
+    }
 })
 
 /********  USTENSILS FILTERBOX  ********/
-/* display ustensils filterbox */
 ustLabel.addEventListener('click', () => {
+    /* display ustensils filterbox */
     activateBox(ustBox)
     deactivateLabel(ustLabel)
     activateInput(ustInput)
     activateButton(ustButton)
     activateDropdown(ustDropdown)
-    ustensilList = generateUstList(recipes)
-    renderUst(ustensilList)
 
-    /* input ustensils search bar */
+    /* check if something is written in main search bar before generating ustensils list */
+    if (mainInput.value.length >= 3) {
+        ustensilList = generateUstList(searchResult)
+        renderUst(ustensilList)
+        addEventToUstLi()
+    }
+    else {
+        ustensilList = generateUstList(recipes)
+        renderUst(ustensilList)
+        addEventToUstLi()
+    }
+
+    /* check if something is written in ustensils search bar before generating ustensils list */
     ustInput.addEventListener("input", (event) => {
         const input = event.target.value.toLowerCase()
-        ustensilList = generateUstList(recipes)
-        ustensilList = filterList(ustensilList, input)
-        renderUst(ustensilList)
+        if (ustInput.value.length >= 3) {
+            ustensilList = filterList(ustensilList, input)
+            renderUst(ustensilList)
+            addEventToUstLi()
+        } else {
+            ustensilList = generateUstList(searchResult)
+            renderUst(ustensilList)
+            addEventToUstLi()
+        }
     })
 
-    const tags = document.querySelectorAll('#ustensils-list li') // All ustensils tags
-    tags.forEach(tag => {
-        tag.addEventListener('click', () => {
-            let selectedTag = tag.innerHTML
-            renderTags(selectedTag, "ust") // add data-type to the tag & display it on the DOM
+    /* check if ustensils tags are selected before generating ustensils list & display recipes */
+    function addEventToUstLi() {
+        const tags = document.querySelectorAll('#ustensils-list li') // All ustensils tags
+        tags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                let selectedTag = tag.innerHTML
+                // if (searchResult.length >= 1) {
+                //     searchResult = filterOnclick(searchResult, selectedTag)
+                // }
+                // else {
+                //     searchResult = filterOnclick(recipes, selectedTag)
+                // }
+                // deleteTag(ingTag)
+                renderTag(selectedTag, "ust") //add data-attribute "ust" display it
+
+                const searchTags = document.querySelectorAll('.tag')
+                searchTags.forEach(searchTag => {
+                    let viewedTag = searchTag.textContent
+                    console.log(viewedTag)
+                    searchResult = filterByUst(recipes, viewedTag)
+                    console.log(searchResult)
+                })
+
+                // code qui parcours les tags et applique les bons filtres
+
+
+                ustensilList = generateUstList(searchResult)
+                renderUst(applianceList)
+                addEventToUstLi()
+
+                document.querySelector('section').innerHTML = ""
+                searchResult.forEach(result => {
+                    renderRecipes(result.name, result.ingredients, result.time, result.description)
+                })
+
+                const closeTags = document.querySelectorAll('i.far.fa-times-circle') // close button of tags
+                closeTags.forEach(tag => {
+                    tag.addEventListener('click', () => {
+                        removeTag(tag)
+                    })
+                })
+            })
         })
-    })
+    }
 })
-
-// get tags selected from the DOM and push them in tag list
-
-function addTagList(type) {
-    const tags = document.querySelectorAll('.tag')
-    tags.forEach(tag => {
-
-    })
-}
 
 ingButton.addEventListener('click', () => {
     activateBox(ingBox)
@@ -203,6 +335,7 @@ ingButton.addEventListener('click', () => {
     activateDropdown(ingDropdown)
     ingredientList = generateIngList(recipes)
     renderIng(ingredientList)
+    addEventToIngLi()
 })
 
 appButton.addEventListener('click', () => {
