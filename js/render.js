@@ -41,6 +41,8 @@ export function renderIng(ingredientList) {
     document.getElementById('ingredients-list').innerHTML = "";
     ingredientList.forEach(ingredient => {
         let item = document.createElement('li')
+        item.style.display = 'block'
+        // item.setAttribute('data-status', 'on')
         item.textContent = ingredient
         document.getElementById('ingredients-list').append(item)
     })
@@ -66,7 +68,7 @@ export function renderUst(ustensilList) {
 
 /* display selected tags below the search bar */
 let tag = ''
-export function renderTags(value, type) {
-    tag += `<div class="tag" data-type="${type}">${value}</div>`
+export function renderTag(value, type) {
+    tag += `<div class="tag" data-type="${type}">${value}<i class="far fa-times-circle" data-status="on"></i></div>`
     document.getElementById('search-tags').innerHTML = tag
 }

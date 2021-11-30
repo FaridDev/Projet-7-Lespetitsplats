@@ -7,7 +7,7 @@ export function generateIngList(recipeList) {
             ingredients.push(ingredient)
         })
     })
-    return [...new Set(ingredients)]
+    return [...new Set(ingredients)].sort()
 }
 
 /* generate appliances List */

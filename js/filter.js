@@ -1,33 +1,33 @@
-/******************   FILTERED RECIPES   ******************/
+/******************   FILTER BY VALUE   ******************/
 
 /* research recipes by name, description & ingredient */
-export function filterOnKey(recipeList, value) {
+export function filterOnKeyup(recipeList, value) {
     return recipeList.filter(recipe => recipe.name.toLowerCase().match(value) || recipe.description.toLowerCase().match(value) || recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(value)))
 }
 
 /* research recipes from filtered tags */
-export function filterOnClick(recipeList, tagString) {
+export function filterOnclick(recipeList, tagString) {
     return recipeList.filter(recipe => recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(tagString)) || recipe.appliance.toLowerCase().match(tagString) || recipe.ustensils.some((ustensil) => ustensil.toLowerCase().match(tagString)))
 }
 
-/* research recipes from ingredients tags */
+
+/******************   FILTER BY TAGS LIST   ******************/
+
+/* filter recipes from ingredients tags */
 export function filterByIng(recipeList, value) {
     return recipeList.filter(recipe => recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(value)))
 }
 
-/* research recipes from appliances tags */
+/* filter recipes from appliances tags */
 export function filterByApp(recipeList, value) {
     return recipeList.filter(recipe => recipe.appliance.toLowerCase().match(value))
 }
 
-/* research recipes from ustensils tags */
+/* filter recipes from ustensils tags */
 export function filterByUst(recipeList, value) {
     return recipeList.filter(recipe => recipe.ustensils.some((ustensil) => ustensil.toLowerCase().match(value)))
 }
-
-
-/******************   FILTERED TAGS LIST   ******************/
-
+/* filter tag list by writting an item */
 export function filterList(itemList, value) {
     return itemList.filter(tag => tag.match(value))
 }
