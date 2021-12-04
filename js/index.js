@@ -9,7 +9,9 @@ let filteredRecipe = [...searchResult] // Array of recipes filtered
 let ingredientList = [] // Array of all ingredients
 let applianceList = [] // Array of all appliances
 let ustensilList = [] // Array of all ustensils
-let tagList = [] // Array of all tags in search bar
+let ingTagList = [] // Array of all ing tags in search bar
+let appTagList = [] // Array of all app tags in search bar
+let ustTagList = [] // Array of all ust tags in search bar
 
 
 // DOM Elements
@@ -56,11 +58,13 @@ function activateDropdown(filterDropdown) {
     filterDropdown.dataset.list = filterDropdown.dataset.list == "inactive" ? "active" : "inactive";
 }
 // deactivate tag on search-tags
-function removeTag(tag) {
-    // tag.dataset.status = tag.dataset.status == "on" ? "off" : "on";
+function removeSearchTag(tag) {
     tag.parentElement.remove(tag.parentElement)
 }
-
+function removeFromTagList(tag) {
+    tag.removeChild(tag)
+    console.log(tag)
+}
 
 /******************   GET RECIPES BY INPUT RESEARCH   ******************/
 
@@ -95,8 +99,7 @@ function addEventToIngLi() { // add event listener to each ing tag
     tags.forEach(tag => {
         tag.addEventListener('click', () => {
             let selectedTag = tag.innerHTML
-
-            tagList.push(selectedTag)
+            ingTagList.push(selectedTag)
             renderTag(selectedTag, "ing") // add data-attribute "ing" to clicked tag & display it
             filteredRecipe = filterRecipesByTag(searchResult)
             renderRecipeList(filteredRecipe)
@@ -107,7 +110,7 @@ function addEventToIngLi() { // add event listener to each ing tag
             const closeTags = document.querySelectorAll('i.far.fa-times-circle') // close button of tags
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
-                    removeTag(tag)
+                    removeSearchTag(tag)
                     filteredRecipe = filterRecipesByTag(searchResult)
                     renderRecipeList(filteredRecipe)
                     ingredientList = generateIngList(filteredRecipe)
@@ -145,11 +148,12 @@ ingButton.addEventListener('click', () => {
             ingredientList = generateIngList(searchResult)
             renderIngList(ingredientList)
             addEventToIngLi()
+            document.querySelector('section').innerHTML = ""
         }
     })
 
-    /* check if tags are present in tag list */
-    if (tagList.length >= 1) {
+    /* check if tags are selected in tag list before generating ingredients list */
+    if (ingTagList.length >= 1) {
         ingredientList = generateIngList(filteredRecipe)
         renderIngList(ingredientList)
         addEventToIngLi()
@@ -164,7 +168,7 @@ function addEventToAppLi() { // add event listener to each app tag
         tag.addEventListener('click', () => {
             let selectedTag = tag.innerHTML
 
-            tagList.push(selectedTag)
+            appTagList.push(selectedTag)
             renderTag(selectedTag, "app") // add data-attribute "app" to clicked tag & display it
             filteredRecipe = filterRecipesByTag(searchResult);
             renderRecipeList(filteredRecipe)
@@ -175,7 +179,7 @@ function addEventToAppLi() { // add event listener to each app tag
             const closeTags = document.querySelectorAll('i.far.fa-times-circle') // close button of tags
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
-                    removeTag(tag)
+                    removeSearchTag(tag)
                     filteredRecipe = filterRecipesByTag(searchResult);
                     renderRecipeList(filteredRecipe)
                     applianceList = generateAppList(filteredRecipe)
@@ -217,7 +221,7 @@ appButton.addEventListener('click', () => {
     })
 
     /* check if tags are present in tag list */
-    if (tagList.length >= 1) {
+    if (appTagList.length >= 1) {
         applianceList = generateAppList(filteredRecipe)
         renderAppList(applianceList)
         addEventToAppLi()
@@ -232,7 +236,7 @@ function addEventToUstLi() { // add event listener to each app tag
         tag.addEventListener('click', () => {
             let selectedTag = tag.innerHTML
 
-            tagList.push(selectedTag)
+            ustTagList.push(selectedTag)
             renderTag(selectedTag, "ust") // add data-attribute "ust" to clicked tag & display it
             filteredRecipe = filterRecipesByTag(searchResult);
             renderRecipeList(filteredRecipe)
@@ -243,7 +247,7 @@ function addEventToUstLi() { // add event listener to each app tag
             const closeTags = document.querySelectorAll('i.far.fa-times-circle') // close button of tags
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
-                    removeTag(tag)
+                    removeSearchTag(tag)
                     filteredRecipe = filterRecipesByTag(searchResult);
                     renderRecipeList(filteredRecipe)
                     ustensilList = generateUstList(filteredRecipe)
@@ -285,7 +289,7 @@ ustButton.addEventListener('click', () => {
     })
 
     /* check if tags are present in tag list */
-    if (tagList.length >= 1) {
+    if (ustTagList.length >= 1) {
         ustensilList = generateUstList(filteredRecipe)
         renderUstList(ustensilList)
         addEventToUstLi()

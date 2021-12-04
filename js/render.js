@@ -72,8 +72,24 @@ export function renderUstList(ustensilList) {
 }
 
 /* display selected tags below the search bar */
-let tag = ''
 export function renderTag(value, type) {
-    tag += `<div class="tag" data-type="${type}">${value}<i class="far fa-times-circle" data-status="on"></i></div>`
-    document.getElementById('search-tags').innerHTML = tag
+    let tag = document.createElement('span')
+    tag.className = 'tag'
+    tag.setAttribute("data-type", `${type}`)
+    tag.innerHTML = `${value}`
+
+    let closeBtn = document.createElement('i')
+    closeBtn.className = 'far fa-times-circle'
+    closeBtn.setAttribute('data-status', 'on')
+
+    tag.append(closeBtn)
+    document.getElementById('search-tags').append(tag)
 }
+
+
+
+// let tag = ''
+// export function renderTag(value, type) {
+//     tag += `<div class="tag" data-type="${type}">${value}<i class="far fa-times-circle" data-status="on"></i></div>`
+//     document.getElementById('search-tags').innerHTML = tag
+// }
