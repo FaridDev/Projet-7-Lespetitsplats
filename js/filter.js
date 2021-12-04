@@ -1,4 +1,4 @@
-/******************   FILTER BY VALUE   ******************/
+/******************   FILTER RECIPES BY VALUE   ******************/
 
 /* research recipes by name, description & ingredient */
 export function filterOnKeyup(recipeList, value) {
@@ -6,12 +6,12 @@ export function filterOnKeyup(recipeList, value) {
 }
 
 /* research recipes from filtered tags */
-export function filterOnclick(recipeList, tagString) {
-    return recipeList.filter(recipe => recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(tagString)) || recipe.appliance.toLowerCase().match(tagString) || recipe.ustensils.some((ustensil) => ustensil.toLowerCase().match(tagString)))
-}
+// export function filterOnclick(recipeList, tagString) {
+//     return recipeList.filter(recipe => recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(tagString)) || recipe.appliance.toLowerCase().match(tagString) || recipe.ustensils.some((ustensil) => ustensil.toLowerCase().match(tagString)))
+// }
 
 
-/******************   FILTER BY TAGS LIST   ******************/
+/******************   FILTER RECIPES BY TAGS LIST   ******************/
 
 /* filter recipes from ingredients tags */
 export function filterByIng(recipeList, value) {
@@ -27,8 +27,32 @@ export function filterByApp(recipeList, value) {
 export function filterByUst(recipeList, value) {
     return recipeList.filter(recipe => recipe.ustensils.some((ustensil) => ustensil.toLowerCase().match(value)))
 }
-/* filter tag list by writting an item */
-export function filterList(itemList, value) {
-    return itemList.filter(tag => tag.match(value))
+
+/* filter recipes by search tags while tag is checked with data-attribute */
+export function filterSearchTag(recipeList) {
+    let tempRecipeList = [...recipeList]
+    const searchTags = document.querySelectorAll('.tag')
+    searchTags.forEach(searchTag => { // loop on each tag and and filter by type
+        let viewedTag = searchTag.textContent
+        const type = searchTag.getAttribute('data-type')
+
+        if (`${type}` === 'ing') {
+            tempRecipeList = filterByIng(tempRecipeList, viewedTag)
+        }
+        else if (`${type}` === 'app') {
+            tempRecipeList = filterByApp(tempRecipeList, viewedTag)
+        }
+        else if (`${type}` === 'ust') {
+            tempRecipeList = filterByUst(tempRecipeList, viewedTag)
+        }
+    })
+    
+    return tempRecipeList;
 }
 
+/******************   FILTER TAG LIST BY VALUE   ******************/
+
+/* filter tag list by writting an item in input */
+export function filterTagList(tagList, value) {
+    return tagList.filter(tag => tag.match(value))
+}

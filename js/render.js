@@ -1,4 +1,4 @@
-export function renderRecipes(name, ingredients, time, description) {
+export function renderRecipe(name, ingredients, time, description) {
     const article = document.createElement('article')
     const cardPicture = document.createElement('div')
     cardPicture.className = 'card-picture'
@@ -37,32 +37,37 @@ export function renderRecipes(name, ingredients, time, description) {
     document.querySelector('section').append(article)
 }
 
-export function renderIng(ingredientList) {
+export function renderRecipeList(recipeList) {
+    document.querySelector('section').innerHTML = "";
+    recipeList.forEach((recipe) => {
+        renderRecipe(recipe.name, recipe.ingredients, recipe.time, recipe.description);
+    })
+}
+
+export function renderIngList(ingredientList) {
     document.getElementById('ingredients-list').innerHTML = "";
     ingredientList.forEach(ingredient => {
-        let item = document.createElement('li')
-        item.style.display = 'block'
-        // item.setAttribute('data-status', 'on')
-        item.textContent = ingredient
-        document.getElementById('ingredients-list').append(item)
+        let ing = document.createElement('li')
+        ing.textContent = ingredient
+        document.getElementById('ingredients-list').append(ing)
     })
 }
 
-export function renderApp(applianceList) {
+export function renderAppList(applianceList) {
     document.getElementById('appliances-list').innerHTML = "";
     applianceList.forEach(appliance => {
-        let item = document.createElement('li')
-        item.textContent = appliance
-        document.getElementById('appliances-list').append(item)
+        let app = document.createElement('li')
+        app.textContent = appliance
+        document.getElementById('appliances-list').append(app)
     })
 }
 
-export function renderUst(ustensilList) {
+export function renderUstList(ustensilList) {
     document.getElementById('ustensils-list').innerHTML = "";
     ustensilList.forEach(ustensil => {
-        let item = document.createElement('li')
-        item.textContent = ustensil
-        document.getElementById('ustensils-list').append(item)
+        let ust = document.createElement('li')
+        ust.textContent = ustensil
+        document.getElementById('ustensils-list').append(ust)
     })
 }
 
