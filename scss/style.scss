@@ -114,7 +114,7 @@ aside {
         color: $tertiarycolor;
         font-weight: 700;
         &::placeholder {
-            color: $tertiarycolor;
+            color: rgba(255, 255, 255, 0.6) 
         }
     }
     button {
