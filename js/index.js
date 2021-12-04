@@ -1,5 +1,5 @@
 import { recipes } from "./recipes.js"
-import { filterOnKeyup, filterSearchTag, filterTagList } from "./filter.js"
+import { filterOnKeyup, filterRecipesByTag, filterTagList } from "./filter.js"
 import { generateIngList, generateAppList, generateUstList } from "./generate.js"
 import { renderRecipeList, renderIngList, renderAppList, renderUstList, renderTag } from "./render.js"
 
@@ -98,7 +98,7 @@ function addEventToIngLi() { // add event listener to each ing tag
 
             tagList.push(selectedTag)
             renderTag(selectedTag, "ing") // add data-attribute "ing" to clicked tag & display it
-            filteredRecipe = filterSearchTag(searchResult)
+            filteredRecipe = filterRecipesByTag(searchResult)
             renderRecipeList(filteredRecipe)
             ingredientList = generateIngList(filteredRecipe) // update ingredients once recipes are filtered
             renderIngList(ingredientList) // display ingredients list
@@ -108,7 +108,7 @@ function addEventToIngLi() { // add event listener to each ing tag
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
                     removeTag(tag)
-                    filteredRecipe = filterSearchTag(searchResult)
+                    filteredRecipe = filterRecipesByTag(searchResult)
                     renderRecipeList(filteredRecipe)
                     ingredientList = generateIngList(filteredRecipe)
                     renderIngList(ingredientList)
@@ -166,7 +166,7 @@ function addEventToAppLi() { // add event listener to each app tag
 
             tagList.push(selectedTag)
             renderTag(selectedTag, "app") // add data-attribute "app" to clicked tag & display it
-            filteredRecipe = filterSearchTag(searchResult);
+            filteredRecipe = filterRecipesByTag(searchResult);
             renderRecipeList(filteredRecipe)
             applianceList = generateAppList(filteredRecipe) // update appliances once recipes are filtered
             renderAppList(applianceList) // display appliances list
@@ -176,7 +176,7 @@ function addEventToAppLi() { // add event listener to each app tag
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
                     removeTag(tag)
-                    filteredRecipe = filterSearchTag(searchResult);
+                    filteredRecipe = filterRecipesByTag(searchResult);
                     renderRecipeList(filteredRecipe)
                     applianceList = generateAppList(filteredRecipe)
                     renderAppList(applianceList)
@@ -215,6 +215,13 @@ appButton.addEventListener('click', () => {
             addEventToAppLi()
         }
     })
+
+    /* check if tags are present in tag list */
+    if (tagList.length >= 1) {
+        applianceList = generateAppList(filteredRecipe)
+        renderAppList(applianceList)
+        addEventToAppLi()
+    }
 })
 
 /********  USTENSILS FILTERBOX  ********/
@@ -227,7 +234,7 @@ function addEventToUstLi() { // add event listener to each app tag
 
             tagList.push(selectedTag)
             renderTag(selectedTag, "ust") // add data-attribute "ust" to clicked tag & display it
-            filteredRecipe = filterSearchTag(searchResult);
+            filteredRecipe = filterRecipesByTag(searchResult);
             renderRecipeList(filteredRecipe)
             ustensilList = generateUstList(filteredRecipe) // update ustensils once recipes are filtered
             renderUstList(ustensilList) // display ustensils list
@@ -237,7 +244,7 @@ function addEventToUstLi() { // add event listener to each app tag
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
                     removeTag(tag)
-                    filteredRecipe = filterSearchTag(searchResult);
+                    filteredRecipe = filterRecipesByTag(searchResult);
                     renderRecipeList(filteredRecipe)
                     ustensilList = generateUstList(filteredRecipe)
                     renderUstList(ustensilList)
@@ -276,4 +283,11 @@ ustButton.addEventListener('click', () => {
             addEventToUstLi()
         }
     })
+
+    /* check if tags are present in tag list */
+    if (tagList.length >= 1) {
+        ustensilList = generateUstList(filteredRecipe)
+        renderUstList(ustensilList)
+        addEventToUstLi()
+    }
 })

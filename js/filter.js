@@ -29,7 +29,7 @@ export function filterByUst(recipeList, value) {
 }
 
 /* filter recipes by search tags while tag is checked with data-attribute */
-export function filterSearchTag(recipeList) {
+export function filterRecipesByTag(recipeList) {
     let tempRecipeList = [...recipeList]
     const searchTags = document.querySelectorAll('.tag')
     searchTags.forEach(searchTag => { // loop on each tag and and filter by type
