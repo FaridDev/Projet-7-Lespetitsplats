@@ -74,7 +74,7 @@ export function renderUstList(ustensilList) {
 /* display selected tags below the search bar */
 export function renderTag(value, type) {
     let tag = document.createElement('span')
-    tag.className = 'tag'
+    tag.className = 'tag'+' '+(`${type}`+'-tag')
     tag.setAttribute("data-type", `${type}`)
     tag.innerHTML = `${value}`
 
