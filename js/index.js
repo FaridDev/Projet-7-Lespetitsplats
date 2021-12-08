@@ -4,14 +4,14 @@ import { generateIngList, generateAppList, generateUstList } from "./generate.js
 import { renderRecipeList, renderIngList, renderAppList, renderUstList, renderTag } from "./render.js"
 
 
-let searchResult = [...recipes] // Array of recipes updated
-let filterResult = [...searchResult] // Array of recipes filtered
-let ingredientList = [] // Array of all ingredients
-let applianceList = [] // Array of all appliances
-let ustensilList = [] // Array of all ustensils
-let ingTagList = [] // Array of all ing tags in search bar
-let appTagList = [] // Array of all app tags in search bar
-let ustTagList = [] // Array of all ust tags in search bar
+let searchResult = [...recipes] // Array of all reciped
+let filterResult = [...searchResult] // Array of filtered recipes
+let ingredientList = generateIngList(searchResult) // Array of all ingredients
+let filterIngList = [...ingredientList] // Array of filtered ingredients
+let applianceList = generateAppList(searchResult) // Array of all appliances
+let filterAppList = [...applianceList] // Array of filtered appliances
+let ustensilList = generateUstList(searchResult) // Array of all ustensils
+let filterUstList = [...ustensilList] // Array of filtered ustensils
 
 
 // DOM Elements
@@ -58,25 +58,16 @@ function activateDropdown(filterDropdown) {
     filterDropdown.dataset.list = filterDropdown.dataset.list == "inactive" ? "active" : "inactive";
 }
 
-window.onclick = function ingClick (e) {
-    if (!e.target.matches('.box-primary') && !e.target.matches('input#input-ingredients') && !e.target.matches('li')) {
-        if ((ingBox.dataset.filter = 'active') && (ingLabel.dataset.label = 'inactive') && (ingInput.dataset.input = 'active') && (ingButton.dataset.button = 'on') && (ingDropdown.dataset.list = 'active')) {
-            displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
-        }
-    }
-}
-
-window.onclick = function appClick (e) {
-if (!e.target.matches('.box-secondary') && !e.target.matches('input#input-appliances') && !e.target.matches('li')) {
-        if ((appBox.dataset.filter = 'active') && (appLabel.dataset.label = 'inactive') && (appInput.dataset.input = 'active') && (appButton.dataset.button = 'on') && (appDropdown.dataset.list = 'active')) {
-            displayFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
-        }
-    }
-}
+// window.onclick = function appClick(e) {
+//     if (!e.target.matches('.box-primary') && !e.target.matches('input#input-ingredients') && !e.target.matches('li')) {
+//         if ((ingBox.dataset.filter = 'active') && (ingLabel.dataset.label = 'inactive') && (ingInput.dataset.input = 'active') && (ingButton.dataset.button = 'on') && (ingDropdown.dataset.list = 'active')) {
+//             displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
+//         }
+//     }
+// }
 
 /******************   GET RECIPES BY INPUT RESEARCH   ******************/
 
-/* input main search bar */
 mainInput.addEventListener("input", (event) => {
     const input = event.target.value.toLowerCase()
 
@@ -125,19 +116,18 @@ function removeSearchTag(tag) { // remove selected tag on search-tags
 
 /********  INGREDIENTS FILTERBOX  ********/
 
-function addEventToIngLi() { // add event listener to each ing tag
-    const ingLis = document.querySelectorAll('#ingredients-list li')
+function addEventToIngLi(listLi, typeTag) { // add event listener to each ing tag
+    const ingLis = document.querySelectorAll(`${listLi}`)
     ingLis.forEach(li => {
         li.addEventListener('click', () => {
             let selectedTag = li.innerHTML
-            ingTagList.push(selectedTag)
             renderTag(selectedTag, "ing") // add data-attribute "ing" to selected tag & display it
             filterResult = filterRecipesByTag(searchResult)
             renderRecipeList(filterResult)
             ingredientList = generateIngList(filterResult) // update ing with filtered recipes
             renderIngList(ingredientList) // display ing list updated
-            addEventToIngLi() // call back event listener to each ing li
-            handlerLi('#ingredients-list li', '.ing-tag') // remove selected tag from ing list
+            addEventToIngLi(`${listLi}`, `${typeTag}`) // call back event listener to each ing li
+            handlerLi(`${listLi}`, `${typeTag}`) // remove selected tag from ing list
 
             const closeTags = document.querySelectorAll('i.far.fa-times-circle') // close button of tags
             closeTags.forEach(tag => {
@@ -148,31 +138,37 @@ function addEventToIngLi() { // add event listener to each ing tag
                     ingredientList = generateIngList(filterResult)
                     renderIngList(ingredientList)
                     addEventToIngLi()
+                    displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
                 })
             })
         })
     })
 }
 
-ingBox.onclick = function () {
-    if ((ingBox.dataset.filter = 'inactive') && (ingLabel.dataset.label = 'active') && (ingInput.dataset.input = 'inactive') && (ingButton.dataset.button = 'off') && (ingDropdown.dataset.list = 'inactive')) {
-        displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
-    }
-    ingredientList = generateIngList(filterResult);
+ingButton.onclick = function () {
+    displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
+    ingredientList = generateIngList(filterResult)
     renderIngList(ingredientList)
-    addEventToIngLi()
+    addEventToIngLi('#ingredients-list li', '.ing-tag')
     handlerLi('#ingredients-list li', '.ing-tag')
+
+    // ingButton.onblur = function () {
+    //     displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
+    // }
 }
 
 ingInput.addEventListener("input", (event) => {
     const input = event.target.value.toLowerCase()
     if (input.length >= 1) {
-        ingredientList = filterTagList(ingredientList, input)
-        renderIngList(ingredientList)
-        addEventToIngLi()
+        filterIngList = filterTagList(ingredientList, input)
+        renderIngList(filterIngList)
+        addEventToIngLi('#ingredients-list li', '.ing-tag')
+        handlerLi('#ingredients-list li', '.ing-tag')
     } else
-        ingredientList = generateIngList(filterResult)
-    renderIngList(ingredientList)
+        filterIngList = generateIngList(filterResult)
+        renderIngList(filterIngList)
+        addEventToIngLi('#ingredients-list li', '.ing-tag')
+        handlerLi('#ingredients-list li', '.ing-tag')
 })
 
 /********  APPLIANCES FILTERBOX  ********/
@@ -182,8 +178,6 @@ function addEventToAppLi() { // add event listener to each app tag
     tags.forEach(tag => {
         tag.addEventListener('click', () => {
             let selectedTag = tag.innerHTML
-
-            appTagList.push(selectedTag)
             renderTag(selectedTag, "app") // add data-attribute "app" to clicked tag & display it
             filterResult = filterRecipesByTag(searchResult);
             renderRecipeList(filterResult)
@@ -201,17 +195,15 @@ function addEventToAppLi() { // add event listener to each app tag
                     applianceList = generateAppList(filterResult)
                     renderAppList(applianceList)
                     addEventToAppLi()
+                    displayFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
                 })
             })
         })
     })
 }
 
-appBox.onclick = function () {
-    if ((appBox.dataset.filter = 'inactive') && (appLabel.dataset.label = 'active') && (appInput.dataset.input = 'inactive') && (appButton.dataset.button = 'off') && (appDropdown.dataset.list = 'inactive')) {
-        displayFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
-    }
-
+appButton.onclick = function () {
+    displayFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
     applianceList = generateAppList(filterResult);
     renderAppList(applianceList)
     addEventToAppLi()
@@ -221,16 +213,15 @@ appBox.onclick = function () {
 appInput.addEventListener("input", (event) => {
     const input = event.target.value.toLowerCase()
     if (input.length >= 1) {
-        applianceList = filterTagList(applianceList, input)
-        renderAppList(applianceList)
-        addEventToAppLi()
-    }
-    else if (input.length < 1 && appTagList.length >= 1) {
-        applianceList = generateAppList(filterResult)
-        renderAppList(applianceList)
+        filterAppList = filterTagList(applianceList, input)
+        renderAppList(filterAppList)
         addEventToAppLi()
         handlerLi('#appliances-list li', '.app-tag')
-    }
+    } else
+        filterIngList = generateIngList(filterResult)
+        renderAppList(filterAppList)
+        addEventToAppLi()
+        handlerLi('#appliances-list li', '.app-tag')
 })
 
 /********  USTENSILS FILTERBOX  ********/
@@ -240,8 +231,6 @@ function addEventToUstLi() { // add event listener to each app tag
     tags.forEach(tag => {
         tag.addEventListener('click', () => {
             let selectedTag = tag.innerHTML
-
-            ustTagList.push(selectedTag)
             renderTag(selectedTag, "ust") // add data-attribute "ust" to clicked tag & display it
             filterResult = filterRecipesByTag(searchResult);
             renderRecipeList(filterResult)
@@ -259,15 +248,15 @@ function addEventToUstLi() { // add event listener to each app tag
                     ustensilList = generateUstList(filterResult)
                     renderUstList(ustensilList)
                     addEventToUstLi()
+                    displayFilterbox(ustBox, ustLabel, ustInput, ustButton, ustDropdown)
                 })
             })
         })
     })
 }
 
-ustBox.addEventListener('click', () => {
+ustButton.addEventListener('click', () => {
     displayFilterbox(ustBox, ustLabel, ustInput, ustButton, ustDropdown)
-
     ustensilList = generateUstList(filterResult);
     renderUstList(ustensilList)
     addEventToUstLi()
@@ -276,14 +265,14 @@ ustBox.addEventListener('click', () => {
 
 ustInput.addEventListener("input", (event) => {
     const input = event.target.value.toLowerCase()
-    if (ustInput.value.length >= 3) {
-        ustensilList = filterTagList(ustensilList, input)
-        renderUstList(ustensilList)
-        addEventToUstLi()
-    } else {
-        ustensilList = generateUstList(searchResult)
-        renderUstList(ustensilList)
+    if (input.length >= 1) {
+        filterUstList = filterTagList(ustensilList, input)
+        renderUstList(filterUstList)
         addEventToUstLi()
         handlerLi('#ustensils-list li', '.ust-tag')
-    }
+    } else
+        filterUstList = generateUstList(filterResult)
+        renderUstList(filterUstList)
+        addEventToUstLi()
+        handlerLi('#ustensils-list li', '.ust-tag')
 })
