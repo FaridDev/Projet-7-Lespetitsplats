@@ -5,7 +5,7 @@ import { renderRecipeList, renderIngList, renderAppList, renderUstList, renderTa
 
 
 let searchResult = [...recipes] // Array of recipes updated
-let filteredRecipe = [...searchResult] // Array of recipes filtered
+let filterResult = [...searchResult] // Array of recipes filtered
 let ingredientList = [] // Array of all ingredients
 let applianceList = [] // Array of all appliances
 let ustensilList = [] // Array of all ustensils
@@ -36,8 +36,6 @@ const ingDropdown = document.getElementById('ingredients-list')
 const appDropdown = document.getElementById('appliances-list')
 const ustDropdown = document.getElementById('ustensils-list')
 
-renderRecipeList(recipes);
-
 
 // activate/deactivate filterbox
 function activateBox(filterBox) {
@@ -59,14 +57,21 @@ function activateButton(filterButton) {
 function activateDropdown(filterDropdown) {
     filterDropdown.dataset.list = filterDropdown.dataset.list == "inactive" ? "active" : "inactive";
 }
-// deactivate tag on search-tags
-function removeSearchTag(tag) {
-    tag.parentElement.remove(tag.parentElement)
+
+window.onclick = function ingClick (e) {
+    if (!e.target.matches('.box-primary') && !e.target.matches('input#input-ingredients') && !e.target.matches('li')) {
+        if ((ingBox.dataset.filter = 'active') && (ingLabel.dataset.label = 'inactive') && (ingInput.dataset.input = 'active') && (ingButton.dataset.button = 'on') && (ingDropdown.dataset.list = 'active')) {
+            displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
+        }
+    }
 }
 
-function removeFromTagList(tag) {
-    tag.removeChild(tag)
-    console.log(tag)
+window.onclick = function appClick (e) {
+if (!e.target.matches('.box-secondary') && !e.target.matches('input#input-appliances') && !e.target.matches('li')) {
+        if ((appBox.dataset.filter = 'active') && (appLabel.dataset.label = 'inactive') && (appInput.dataset.input = 'active') && (appButton.dataset.button = 'on') && (appDropdown.dataset.list = 'active')) {
+            displayFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
+        }
+    }
 }
 
 /******************   GET RECIPES BY INPUT RESEARCH   ******************/
@@ -75,17 +80,18 @@ function removeFromTagList(tag) {
 mainInput.addEventListener("input", (event) => {
     const input = event.target.value.toLowerCase()
 
-    if (input.length >= 3) { /* checking if the word is more than 3 letters */
+    if (input.length >= 3) { /* checking if input word is more than 3 letters */
         document.querySelector('section').innerHTML = ""
-        searchResult = filterOnKeyup(searchResult, input)
-        renderRecipeList(searchResult)
-    } else if (input.length < 3) {
+        searchResult = filterOnKeyup(recipes, input)
+        filterResult = filterRecipesByTag(searchResult)
+        renderRecipeList(filterResult)
+    } else
         document.querySelector('section').innerHTML = ""
-    }
 })
 
 
-/******************   GET RECIPES BY FILTERED RESEARCH   ******************/
+/******************   GET RECIPES BY FILTERED TAGS   ******************/
+
 function displayFilterbox(box, label, input, button, dropdown) { // display block filterbox
     activateBox(box)
     deactivateLabel(label)
@@ -113,6 +119,10 @@ function handlerLi(typeLis, typeTag) { // remove li form list of lis
     }
 }
 
+function removeSearchTag(tag) { // remove selected tag on search-tags
+    tag.parentElement.remove(tag.parentElement)
+}
+
 /********  INGREDIENTS FILTERBOX  ********/
 
 function addEventToIngLi() { // add event listener to each ing tag
@@ -122,9 +132,9 @@ function addEventToIngLi() { // add event listener to each ing tag
             let selectedTag = li.innerHTML
             ingTagList.push(selectedTag)
             renderTag(selectedTag, "ing") // add data-attribute "ing" to selected tag & display it
-            filteredRecipe = filterRecipesByTag(searchResult)
-            renderRecipeList(filteredRecipe)
-            ingredientList = generateIngList(filteredRecipe) // update ing with filtered recipes
+            filterResult = filterRecipesByTag(searchResult)
+            renderRecipeList(filterResult)
+            ingredientList = generateIngList(filterResult) // update ing with filtered recipes
             renderIngList(ingredientList) // display ing list updated
             addEventToIngLi() // call back event listener to each ing li
             handlerLi('#ingredients-list li', '.ing-tag') // remove selected tag from ing list
@@ -133,9 +143,9 @@ function addEventToIngLi() { // add event listener to each ing tag
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
                     removeSearchTag(tag)
-                    filteredRecipe = filterRecipesByTag(searchResult)
-                    renderRecipeList(filteredRecipe)
-                    ingredientList = generateIngList(filteredRecipe)
+                    filterResult = filterRecipesByTag(searchResult)
+                    renderRecipeList(filterResult)
+                    ingredientList = generateIngList(filterResult)
                     renderIngList(ingredientList)
                     addEventToIngLi()
                 })
@@ -144,48 +154,25 @@ function addEventToIngLi() { // add event listener to each ing tag
     })
 }
 
-ingButton.addEventListener('click', () => {
-    displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
+ingBox.onclick = function () {
+    if ((ingBox.dataset.filter = 'inactive') && (ingLabel.dataset.label = 'active') && (ingInput.dataset.input = 'inactive') && (ingButton.dataset.button = 'off') && (ingDropdown.dataset.list = 'inactive')) {
+        displayFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
+    }
+    ingredientList = generateIngList(filterResult);
+    renderIngList(ingredientList)
+    addEventToIngLi()
+    handlerLi('#ingredients-list li', '.ing-tag')
+}
 
-    /* check if something is written in main search bar before generating ingredients list */
-    if (mainInput.value.length >= 3) {
-        ingredientList = generateIngList(searchResult)
+ingInput.addEventListener("input", (event) => {
+    const input = event.target.value.toLowerCase()
+    if (input.length >= 1) {
+        ingredientList = filterTagList(ingredientList, input)
         renderIngList(ingredientList)
         addEventToIngLi()
-        handlerLi('#ingredients-list li', '.ing-tag')
-    }
-    else if (ingTagList.length >= 1 || appTagList.length >= 1 || ustTagList.length >= 1) {
-        ingredientList = generateIngList(filteredRecipe)
-        renderIngList(ingredientList)
-        addEventToIngLi()
-        handlerLi('#ingredients-list li', '.ing-tag')
-    }
-    else {
-        ingredientList = generateIngList(searchResult)
-        renderIngList(ingredientList)
-        addEventToIngLi()
-        handlerLi('#ingredients-list li', '.ing-tag')
-        document.querySelector('section').innerHTML = ""
-    }
-
-    /* check if something is written in ingredients input before generating ingredients list */
-    ingInput.addEventListener("input", (event) => {
-        const input = event.target.value.toLowerCase()
-        if (input.length >= 1) {
-            ingredientList = filterTagList(ingredientList, input)
-            renderIngList(ingredientList)
-            addEventToIngLi()
-        }
-        else if (input.length < 1 && ingTagList.length >= 1) {
-            ingredientList = generateIngList(filteredRecipe)
-            renderIngList(ingredientList)
-            addEventToIngLi()
-            handlerLi('#ingredients-list li', '.ing-tag')
-        }
-    })
-
-    /* check if tags are selected in tag list before generating ingredients list */
-
+    } else
+        ingredientList = generateIngList(filterResult)
+    renderIngList(ingredientList)
 })
 
 /********  APPLIANCES FILTERBOX  ********/
@@ -198,9 +185,9 @@ function addEventToAppLi() { // add event listener to each app tag
 
             appTagList.push(selectedTag)
             renderTag(selectedTag, "app") // add data-attribute "app" to clicked tag & display it
-            filteredRecipe = filterRecipesByTag(searchResult);
-            renderRecipeList(filteredRecipe)
-            applianceList = generateAppList(filteredRecipe) // update appliances once recipes are filtered
+            filterResult = filterRecipesByTag(searchResult);
+            renderRecipeList(filterResult)
+            applianceList = generateAppList(filterResult) // update appliances once recipes are filtered
             renderAppList(applianceList) // display appliances list
             addEventToAppLi() // call addEventToAppLi() to add again event listener to each app li
             handlerLi('#appliances-list li', '.app-tag') // remove selected tag from ing list
@@ -209,9 +196,9 @@ function addEventToAppLi() { // add event listener to each app tag
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
                     removeSearchTag(tag)
-                    filteredRecipe = filterRecipesByTag(searchResult);
-                    renderRecipeList(filteredRecipe)
-                    applianceList = generateAppList(filteredRecipe)
+                    filterResult = filterRecipesByTag(searchResult);
+                    renderRecipeList(filterResult)
+                    applianceList = generateAppList(filterResult)
                     renderAppList(applianceList)
                     addEventToAppLi()
                 })
@@ -220,46 +207,30 @@ function addEventToAppLi() { // add event listener to each app tag
     })
 }
 
-appButton.addEventListener('click', () => {
-    displayFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
+appBox.onclick = function () {
+    if ((appBox.dataset.filter = 'inactive') && (appLabel.dataset.label = 'active') && (appInput.dataset.input = 'inactive') && (appButton.dataset.button = 'off') && (appDropdown.dataset.list = 'inactive')) {
+        displayFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
+    }
 
-    /* check if something is written in main search bar before generating appliances list */
-    if (mainInput.value.length >= 3) {
-        applianceList = generateAppList(searchResult)
+    applianceList = generateAppList(filterResult);
+    renderAppList(applianceList)
+    addEventToAppLi()
+    handlerLi('#appliances-list li', '.app-tag')
+}
+
+appInput.addEventListener("input", (event) => {
+    const input = event.target.value.toLowerCase()
+    if (input.length >= 1) {
+        applianceList = filterTagList(applianceList, input)
+        renderAppList(applianceList)
+        addEventToAppLi()
+    }
+    else if (input.length < 1 && appTagList.length >= 1) {
+        applianceList = generateAppList(filterResult)
         renderAppList(applianceList)
         addEventToAppLi()
         handlerLi('#appliances-list li', '.app-tag')
     }
-    else if (appTagList.length >= 1 || ingTagList.length >= 1 || ustTagList.length >= 1) {
-        applianceList = generateAppList(filteredRecipe)
-        renderAppList(applianceList)
-        addEventToAppLi()
-        handlerLi('#appliances-list li', '.app-tag')
-    }
-    else {
-        applianceList = generateAppList(searchResult)
-        renderAppList(applianceList)
-        addEventToAppLi()
-        handlerLi('#appliances-list li', '.app-tag')
-    }
-
-    /* check if something is written in appliances input before generating appliances list */
-    appInput.addEventListener("input", (event) => {
-        const input = event.target.value.toLowerCase()
-        if (input.length >= 1) {
-            applianceList = filterTagList(applianceList, input)
-            renderAppList(applianceList)
-            addEventToAppLi()
-        }
-        else if (input.length < 1 && appTagList.length >= 1) {
-            applianceList = generateAppList(filteredRecipe)
-            renderAppList(applianceList)
-            addEventToAppLi()
-            handlerLi('#appliances-list li', '.app-tag')
-        }
-    })
-
-
 })
 
 /********  USTENSILS FILTERBOX  ********/
@@ -272,9 +243,9 @@ function addEventToUstLi() { // add event listener to each app tag
 
             ustTagList.push(selectedTag)
             renderTag(selectedTag, "ust") // add data-attribute "ust" to clicked tag & display it
-            filteredRecipe = filterRecipesByTag(searchResult);
-            renderRecipeList(filteredRecipe)
-            ustensilList = generateUstList(filteredRecipe) // update ustensils once recipes are filtered
+            filterResult = filterRecipesByTag(searchResult);
+            renderRecipeList(filterResult)
+            ustensilList = generateUstList(filterResult) // update ustensils once recipes are filtered
             renderUstList(ustensilList) // display ustensils list
             addEventToUstLi() // call addEventToAppLi() to add again event listener to each app li
             handlerLi('#ustensils-list li', '.ust-tag')
@@ -283,9 +254,9 @@ function addEventToUstLi() { // add event listener to each app tag
             closeTags.forEach(tag => {
                 tag.addEventListener('click', () => {
                     removeSearchTag(tag)
-                    filteredRecipe = filterRecipesByTag(searchResult);
-                    renderRecipeList(filteredRecipe)
-                    ustensilList = generateUstList(filteredRecipe)
+                    filterResult = filterRecipesByTag(searchResult);
+                    renderRecipeList(filterResult)
+                    ustensilList = generateUstList(filterResult)
                     renderUstList(ustensilList)
                     addEventToUstLi()
                 })
@@ -294,41 +265,25 @@ function addEventToUstLi() { // add event listener to each app tag
     })
 }
 
-ustButton.addEventListener('click', () => {
+ustBox.addEventListener('click', () => {
     displayFilterbox(ustBox, ustLabel, ustInput, ustButton, ustDropdown)
 
-    /* check if something is written in main search bar before generating ustensils list */
-    if (mainInput.value.length >= 3) {
-        ustensilList = generateUstList(searchResult)
-        renderUstList(ustensilList)
-        addEventToUstLi()
-        handlerLi('#ustensils-list li', '.ust-tag')
-    }
-    else if (ustTagList.length >= 1 || appTagList.length >= 1 || ingTagList.length >= 1) {
-        ustensilList = generateUstList(filteredRecipe)
-        renderUstList(ustensilList)
-        addEventToUstLi()
-        handlerLi('#ustensils-list li', '.ust-tag')
-    }
-    else {
-        ustensilList = generateUstList(searchResult)
-        renderUstList(ustensilList)
-        addEventToUstLi()
-        handlerLi('#ustensils-list li', '.ust-tag')
-    }
+    ustensilList = generateUstList(filterResult);
+    renderUstList(ustensilList)
+    addEventToUstLi()
+    handlerLi('#ustensils-list li', '.ust-tag')
+})
 
-    /* check if something is written in ustensils search bar before generating ustensils list */
-    ustInput.addEventListener("input", (event) => {
-        const input = event.target.value.toLowerCase()
-        if (ustInput.value.length >= 3) {
-            ustensilList = filterTagList(ustensilList, input)
-            renderUstList(ustensilList)
-            addEventToUstLi()
-        } else {
-            ustensilList = generateUstList(searchResult)
-            renderUstList(ustensilList)
-            addEventToUstLi()
-            handlerLi('#ustensils-list li', '.ust-tag')
-        }
-    })
+ustInput.addEventListener("input", (event) => {
+    const input = event.target.value.toLowerCase()
+    if (ustInput.value.length >= 3) {
+        ustensilList = filterTagList(ustensilList, input)
+        renderUstList(ustensilList)
+        addEventToUstLi()
+    } else {
+        ustensilList = generateUstList(searchResult)
+        renderUstList(ustensilList)
+        addEventToUstLi()
+        handlerLi('#ustensils-list li', '.ust-tag')
+    }
 })
