@@ -251,3 +251,9 @@ ustInput.addEventListener("input", (event) => {
         handlerLi('#ustensils-list li', '.ust-tag')
     }
 })
+
+document.addEventListener("click", function(e) {
+    if(!ingBox.contains(e.target) && !appBox.contains(e.target) && !ustBox.contains(e.target)) {
+        closeAllFilterboxes();
+    }
+});
