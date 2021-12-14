@@ -134,6 +134,7 @@ aside {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  overflow: auto;
   color: #fff;
   width: 9.625rem;
   height: 4.3125rem;
@@ -188,7 +189,7 @@ aside {
 
 .filterbox ul {
   display: none;
-  overflow: scroll;
+  overflow: auto;
   width: 100%;
   max-height: 19.5rem;
   font-weight: 700;
