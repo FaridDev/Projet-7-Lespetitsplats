@@ -1,5 +1,5 @@
 import { recipes } from "./recipes.js"
-import { forEachRecByValue, filterRecByTag, filterTagList } from "./filter.js"
+import { filterRecByValue, filterRecByTag, filterTagList } from "./filter.js"
 import { generateIngList, generateAppList, generateUstList } from "./generate.js"
 import { renderRecipeList, renderIngList, renderAppList, renderUstList, renderTag } from "./render.js"
 
@@ -39,16 +39,6 @@ const ingDropdown = document.getElementById('ingredients-list')
 const appDropdown = document.getElementById('appliances-list')
 const ustDropdown = document.getElementById('ustensils-list')
 
-// function isInPage(node) {
-//     const boxes = document.querySelectorAll('.filterbox')
-//     boxes.onclick()
-// }
-
-// window.onclick = function (e) {
-//     if (!e.target.matches('.box-primary') && !e.target.matches('input#input-ingredients') && !e.target.matches('li')) {
-//         closeFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
-//     }
-// }
 
 function switchFilterbox(box, label, input, button, dropdown) { // switch On/Off filterbox
     function activateBox(box) { // activate/deactivate filterbox
@@ -114,7 +104,7 @@ mainInput.addEventListener("input", (event) => {
     if (input.length >= 1) { /* checking if input word is more than 1 letter */
         closeAllFilterboxes()
         document.querySelector('section').innerHTML = ""
-        filterResult = forEachRecByValue(recipes, input)
+        filterResult = filterRecByValue(recipes, input)
         filterResult = filterRecByTag(filterResult)
         renderRecipeList(filterResult)
     }
@@ -251,3 +241,9 @@ ustInput.addEventListener("input", (event) => {
         handlerLi('#ustensils-list li', '.ust-tag')
     }
 })
+
+document.addEventListener("click", function(e) {
+    if(!ingBox.contains(e.target) && !appBox.contains(e.target) && !ustBox.contains(e.target)) {
+        closeAllFilterboxes();
+    }
+});
