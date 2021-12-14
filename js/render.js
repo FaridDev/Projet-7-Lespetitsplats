@@ -85,11 +85,3 @@ export function renderTag(value, type) {
     tag.append(closeBtn)
     document.getElementById('search-tags').append(tag)
 }
-
-
-
-// let tag = ''
-// export function renderTag(value, type) {
-//     tag += `<div class="tag" data-type="${type}">${value}<i class="far fa-times-circle" data-status="on"></i></div>`
-//     document.getElementById('search-tags').innerHTML = tag
-// }

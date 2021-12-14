@@ -1,15 +1,10 @@
 /******************   FILTER RECIPES BY VALUE   ******************/
 
 /* research recipes by name, description & ingredient */
-export function filterOnKeyup(recipeList, value) {
+
+export function filterRecByValue(recipeList, value) {
     return recipeList.filter(recipe => recipe.name.toLowerCase().match(value) || recipe.description.toLowerCase().match(value) || recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(value)))
 }
-
-/* research recipes from filtered tags */
-// export function filterOnclick(recipeList, tagString) {
-//     return recipeList.filter(recipe => recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(tagString)) || recipe.appliance.toLowerCase().match(tagString) || recipe.ustensils.some((ustensil) => ustensil.toLowerCase().match(tagString)))
-// }
-
 
 /******************   FILTER RECIPES BY TAGS LIST   ******************/
 
@@ -29,7 +24,7 @@ export function filterByUst(recipeList, value) {
 }
 
 /* filter recipes by search tags while tag is checked with data-attribute */
-export function filterRecipesByTag(recipeList) {
+export function filterRecByTag(recipeList) {
     let tempRecipeList = [...recipeList]
     const searchTags = document.querySelectorAll('.tag')
     searchTags.forEach(searchTag => { // loop on each tag and and filter by type
@@ -46,7 +41,6 @@ export function filterRecipesByTag(recipeList) {
             tempRecipeList = filterByUst(tempRecipeList, viewedTag)
         }
     })
-    
     return tempRecipeList;
 }
 
