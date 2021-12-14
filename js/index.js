@@ -1,5 +1,5 @@
 import { recipes } from "./recipes.js"
-import { filterRecByValue, filterRecByTag, filterTagList } from "./filter.js"
+import { forEachRecByValue, filterRecByTag, filterTagList } from "./filter.js"
 import { generateIngList, generateAppList, generateUstList } from "./generate.js"
 import { renderRecipeList, renderIngList, renderAppList, renderUstList, renderTag } from "./render.js"
 
@@ -114,7 +114,7 @@ mainInput.addEventListener("input", (event) => {
     if (input.length >= 1) { /* checking if input word is more than 1 letter */
         closeAllFilterboxes()
         document.querySelector('section').innerHTML = ""
-        filterResult = filterRecByValue(recipes, input)
+        filterResult = forEachRecByValue(recipes, input)
         filterResult = filterRecByTag(filterResult)
         renderRecipeList(filterResult)
     }
