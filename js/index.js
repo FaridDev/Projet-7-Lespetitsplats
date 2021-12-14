@@ -39,16 +39,7 @@ const ingDropdown = document.getElementById('ingredients-list')
 const appDropdown = document.getElementById('appliances-list')
 const ustDropdown = document.getElementById('ustensils-list')
 
-// function isInPage(node) {
-//     const boxes = document.querySelectorAll('.filterbox')
-//     boxes.onclick()
-// }
-
-// window.onclick = function (e) {
-//     if (!e.target.matches('.box-primary') && !e.target.matches('input#input-ingredients') && !e.target.matches('li')) {
-//         closeFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
-//     }
-// }
+// Functions handlering filterboxes
 
 function switchFilterbox(box, label, input, button, dropdown) { // switch On/Off filterbox
     function activateBox(box) { // activate/deactivate filterbox
@@ -104,6 +95,12 @@ function closeAllFilterboxes() {
     closeFilterbox(ustBox, ustLabel, ustInput, ustButton, ustDropdown)
 }
 
+document.addEventListener("click", function(e) {
+    if(!ingBox.contains(e.target) && !appBox.contains(e.target) && !ustBox.contains(e.target)) {
+        closeAllFilterboxes();
+    }
+})
+
 renderRecipeList(searchResult)
 
 /******************   GET RECIPES BY INPUT RESEARCH   ******************/
@@ -156,7 +153,7 @@ function addEventToLi(type, typeListLi, typeTag) { // add event listener to each
             filterResult = filterRecByTag(searchResult)
             renderRecipeList(filterResult)
             updateListsOfLi() // update all lists of li with filtered recipes
-            addEventToLi(`${type}`, `${typeListLi}`, `${typeTag}`) // call back event listener to each ing li
+            addEventToLi(`${type}`, `${typeListLi}`, `${typeTag}`) // call event listener to each li
             handlerLi(`${typeListLi}`, `${typeTag}`) // remove selected tag from the list
 
             const closureBtn = document.querySelectorAll('i.far.fa-times-circle') // closure button for tags
@@ -177,8 +174,8 @@ function addEventToLi(type, typeListLi, typeTag) { // add event listener to each
 
 /********  INGREDIENTS FILTERBOX  ********/
 
-ingButton.onclick = function () {
-    switchFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
+ingBox.onclick = function () {
+    openFilterbox(ingBox, ingLabel, ingInput, ingButton, ingDropdown)
     ingredientList = generateIngList(filterResult)
     renderIngList(ingredientList)
     addEventToLi('ing', '#ingredients-list li', '.ing-tag')
@@ -203,8 +200,8 @@ ingInput.addEventListener("input", (event) => {
 
 /********  APPLIANCES FILTERBOX  ********/
 
-appButton.onclick = function () {
-    switchFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
+appBox.onclick = function () {
+    openFilterbox(appBox, appLabel, appInput, appButton, appDropdown)
     applianceList = generateAppList(filterResult);
     renderAppList(applianceList)
     addEventToLi('app', '#appliances-list li', '.app-tag')
@@ -229,8 +226,8 @@ appInput.addEventListener("input", (event) => {
 
 /********  USTENSILS FILTERBOX  ********/
 
-ustButton.onclick = function () {
-    switchFilterbox(ustBox, ustLabel, ustInput, ustButton, ustDropdown)
+ustBox.onclick = function () {
+    openFilterbox(ustBox, ustLabel, ustInput, ustButton, ustDropdown)
     ustensilList = generateUstList(filterResult);
     renderUstList(ustensilList)
     addEventToLi('ust', '#ustensils-list li', '.ust-tag')
@@ -251,9 +248,3 @@ ustInput.addEventListener("input", (event) => {
         handlerLi('#ustensils-list li', '.ust-tag')
     }
 })
-
-document.addEventListener("click", function(e) {
-    if(!ingBox.contains(e.target) && !appBox.contains(e.target) && !ustBox.contains(e.target)) {
-        closeAllFilterboxes();
-    }
-});
