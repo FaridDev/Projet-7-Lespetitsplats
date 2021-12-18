@@ -2,17 +2,17 @@
 
 /* research recipes by name, description & ingredient with forEach */
 
-export function forEachRecByValue(recipeList, value) {
+export function filterRecByValue(recipeList, value) {
     let recipeResult = []
-    recipeList.forEach((recipe) => {
-        let recipeByName = recipe.name.toLowerCase().match(value)
-        let recipeByDesc = recipe.description.toLowerCase().match(value)
-        let recipeByIng = recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().match(value))
-        
-        if (recipeByName || recipeByDesc || recipeByIng) {
-            recipeResult.push(recipe)
-        }        
-    })
+    for (let i = 0; i < recipeList.length; i++) {
+        let recipeByName = recipeList[i].name.toLowerCase().match(value)
+        let recipeByDesc = recipeList[i].description.toLowerCase().match(value)
+        let recipeByIng = recipeList[i].ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().match(value))
+
+        if (recipeByName|| recipeByDesc || recipeByIng) {
+            recipeResult.push(recipeList[i])
+        }
+    }
     return recipeResult
 }
 
