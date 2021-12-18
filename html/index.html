@@ -30,32 +30,41 @@
     <main>
         <aside>
             <div class="search-bar">
-                <input type="text" class="form-control" id="main-input" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" data-search>
-                <label for="search" class="form-label"><i class="fa fa-search"></i></label>
+                <input type="text" class="form-control" id="main-input"
+                    placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" data-search>
+                <label class="form-label"><i class="fa fa-search"></i></label>
             </div>
             <div id="search-tags"></div>
             <div id="search-filters">
                 <div class="filterbox box-primary" data-filter="inactive">
-                    <label for="ingredients" class="filter-label" id="label-ingredients" data-label="active">Ingredients</label>
-                    <input type="text" class="filter-input" id="input-ingredients" placeholder="Rechercher un ingredient" data-input="inactive">
-                    <button class="filter-button" id="button-ingredients" data-button="off"><i class="fas fa-chevron-down"></i></button>
+                    <label class="filter-label" id="label-ingredients"
+                        data-label="active">Ingredients</label>
+                    <input type="text" class="filter-input" id="input-ingredients"
+                        placeholder="Rechercher un ingredient" data-input="inactive">
+                    <button class="filter-button" id="button-ingredients" data-button="off"><i
+                            class="fas fa-chevron-down"></i></button>
                     <ul class="filter-list" id="ingredients-list" data-list="inactive"></ul>
                 </div>
                 <div class="filterbox box-secondary" data-filter="inactive">
-                    <label for="appliances" class="filter-label" id="label-appliances" data-label="active">Appareil</label>
-                    <input type="text" class="filter-input" id="input-appliances" placeholder="Rechercher un appareil" data-input="inactive">
-                    <button class="filter-button" id="button-appliances" data-button="off"><i class="fas fa-chevron-down"></i></button>
+                    <label class="filter-label" id="label-appliances"
+                        data-label="active">Appareil</label>
+                    <input type="text" class="filter-input" id="input-appliances" placeholder="Rechercher un appareil"
+                        data-input="inactive">
+                    <button class="filter-button" id="button-appliances" data-button="off"><i
+                            class="fas fa-chevron-down"></i></button>
                     <ul class="filter-list" id="appliances-list" data-list="inactive"></ul>
                 </div>
                 <div class="filterbox box-tertiary" data-filter="inactive">
-                    <label for="ustensils" class="filter-label" id="label-ustensils" data-label="active">Ustensiles</label>
-                    <input type="text" class="filter-input" id="input-ustensils" placeholder="Rechercher un ustensile" data-input="inactive">
-                    <button class="filter-button" id="button-ustensils" data-button="off"><i class="fas fa-chevron-down"></i></button>
+                    <label class="filter-label" id="label-ustensils"
+                        data-label="active">Ustensiles</label>
+                    <input type="text" class="filter-input" id="input-ustensils" placeholder="Rechercher un ustensile"
+                        data-input="inactive">
+                    <button class="filter-button" id="button-ustensils" data-button="off"><i
+                            class="fas fa-chevron-down"></i></button>
                     <ul class="filter-list" id="ustensils-list" data-list="inactive"></ul>
                 </div>
             </div>
         </aside>
-
         <section>
             <!-- <article>
                 <div class='card-picture'>
