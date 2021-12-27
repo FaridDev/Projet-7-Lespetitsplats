@@ -107,6 +107,8 @@ mainInput.addEventListener("input", (event) => {
         filterResult = filterRecByValue(recipes, input)
         filterResult = filterRecByTag(filterResult)
         renderRecipeList(filterResult)
+    } else {
+        document.querySelector('section').innerHTML = ""
     }
 })
 
