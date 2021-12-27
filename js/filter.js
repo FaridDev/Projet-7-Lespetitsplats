@@ -5,11 +5,11 @@
 export function filterRecByValue(recipeList, value) {
     let recipeResult = []
     for (let i = 0; i < recipeList.length; i++) {
-        let recipeByName = recipeList[i].name.toLowerCase().match(value)
-        let recipeByDesc = recipeList[i].description.toLowerCase().match(value)
-        let recipeByIng = recipeList[i].ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().match(value))
+        let recipeByName = recipeList[i].name.toLowerCase().includes(value)
+        let recipeByDesc = recipeList[i].description.toLowerCase().includes(value)
+        let recipeByIng = recipeList[i].ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(value))
 
-        if (recipeByName|| recipeByDesc || recipeByIng) {
+        if (recipeByName || recipeByDesc || recipeByIng) {
             recipeResult.push(recipeList[i])
         }
     }
