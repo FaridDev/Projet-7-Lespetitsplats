@@ -3,7 +3,7 @@
 /* research recipes by name, description & ingredient */
 
 export function filterRecByValue(recipeList, value) {
-    return recipeList.filter(recipe => recipe.name.toLowerCase().match(value) || recipe.description.toLowerCase().match(value) || recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().includes(value)))
+    return recipeList.filter(recipe => recipe.name.toLowerCase().match(value) || recipe.description.toLowerCase().match(value) || recipe.ingredients.some((ingredientDetail) => ingredientDetail.ingredient.toLowerCase().match(value)))
 }
 
 /******************   FILTER RECIPES BY TAGS LIST   ******************/
